@@ -24,7 +24,9 @@
 
 <header class="sticky top-0 z-50 backdrop-blur bg-white/70 dark:bg-zinc-900/70 border-b border-gray-200 dark:border-zinc-800">
   <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
-    <img src="logo.png" alt="Logo" class="h-10 w-10 rounded-full border border-gray-300 dark:border-zinc-700 shadow-sm" />
+    <img src="logo.png" alt="Logo"
+         class="h-12 w-12 object-contain rounded-lg bg-white p-1
+                border border-gray-300 dark:border-zinc-700 shadow-sm" />
     <div>
       <h1 class="text-xl font-semibold ink">Research Portal</h1>
       <p class="text-xs muted">by GrandPi224</p>
@@ -87,7 +89,6 @@ const DEFAULT_DATA = { sections: [] };
 let DATA = null;
 let SOURCE = "default";
 
-// Load JSON
 async function loadShared() {
   try {
     const res = await fetch("portal-data.json?ts=" + Date.now(), { cache: "no-store" });
