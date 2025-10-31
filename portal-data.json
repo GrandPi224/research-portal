@@ -115,6 +115,36 @@
           ]
         }
       ]
+    },
+    {
+      "title": "Code & Repos",
+      "groups": [
+        {
+          "title": "Dashboards",
+          "items": [
+            {
+              "label": "Earnings Intelligence Dashboard",
+              "url": "https://grandpi224.github.io/EarningsDashboard/",
+              "tags": ["dashboard","HTML","GitHub Pages"]
+            },
+            {
+              "label": "Housing Market Trends",
+              "url": "https://grandpi224.github.io/HousingDashboard/",
+              "tags": ["housing","dashboard"]
+            }
+          ]
+        },
+        {
+          "title": "Utilities",
+          "items": [
+            {
+              "label": "CSV → JSON Converter",
+              "url": "https://grandpi224.github.io/tools/csv2json/",
+              "tags": ["data","tool"]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
