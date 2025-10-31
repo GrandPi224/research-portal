@@ -1,0 +1,24 @@
+{
+  "sections": [
+    {
+      "title": "Global Financial Markets",
+      "groups": [
+        {
+          "title": "Overview & Outlook",
+          "items": [
+            {
+              "label": "S&P 500 — SP500 (FRED)",
+              "url": "https://fred.stlouisfed.org/series/SP500",
+              "tags": ["equity", "index", "FRED"]
+            },
+            {
+              "label": "CBOE VIX — VIXCLS (FRED)",
+              "url": "https://fred.stlouisfed.org/series/VIXCLS",
+              "tags": ["volatility", "FRED"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
