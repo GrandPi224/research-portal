@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Markets & Macro Research Portal — Shared Data</title>
+<title>Research Portal — GrandPi224</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@0.454.0/font/lucide.css">
 <style>
@@ -19,17 +19,28 @@
   .pill { @apply text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300; }
 </style>
 </head>
+
 <body class="bg-gray-100 dark:bg-zinc-900 text-gray-900 dark:text-gray-100">
+
 <header class="sticky top-0 z-50 backdrop-blur bg-white/70 dark:bg-zinc-900/70 border-b border-gray-200 dark:border-zinc-800">
   <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
-    <div class="flex items-center gap-2"><i class="lucide-bar-chart-3"></i><h1 class="text-xl font-semibold ink">Research Portal</h1></div>
+    <img src="logo.png" alt="Logo" class="h-10 w-10 rounded-full border border-gray-300 dark:border-zinc-700 shadow-sm" />
+    <div>
+      <h1 class="text-xl font-semibold ink">Research Portal</h1>
+      <p class="text-xs muted">by GrandPi224</p>
+    </div>
     <div class="flex-1"></div>
     <label class="relative w-full max-w-md">
       <i class="lucide-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
       <input id="search" type="search" placeholder="Search sections, items, tags…" class="w-full pl-10 pr-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 ring-focus" />
     </label>
-    <button id="expandAll" class="btn ml-2" title="Expand/Collapse all"><span class="inline-flex items-center gap-2"><i class="lucide-panel-right-open"></i>Expand All</span></button>
-    <button id="themeToggle" class="btn" title="Light/Dark"><i class="lucide-sun dark:hidden"></i><i class="lucide-moon hidden dark:inline"></i></button>
+    <button id="expandAll" class="btn ml-2" title="Expand/Collapse all">
+      <span class="inline-flex items-center gap-2"><i class="lucide-panel-right-open"></i>Expand All</span>
+    </button>
+    <button id="themeToggle" class="btn" title="Light/Dark">
+      <i class="lucide-sun dark:hidden"></i>
+      <i class="lucide-moon hidden dark:inline"></i>
+    </button>
   </div>
 </header>
 
@@ -38,7 +49,9 @@
 
   <section class="space-y-4">
     <div class="card rounded-2xl p-4 border border-gray-200 dark:border-zinc-800">
-      <div class="flex items-center justify-between"><h2 class="text-lg font-semibold ink">Quick Actions</h2></div>
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold ink">Quick Actions</h2>
+      </div>
       <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
         <a class="btn flex items-center gap-2 justify-center" id="openAllLinks"><i class="lucide-external-link"></i>Open visible links</a>
         <a class="btn flex items-center gap-2 justify-center" href="#" id="downloadJSON"><i class="lucide-download"></i>Download JSON</a>
@@ -65,111 +78,16 @@
   </section>
 </main>
 
-<footer class="max-w-7xl mx-auto px-4 pb-8"><p class="text-center text-xs muted">© <span id="year"></span> Research Portal.</p></footer>
+<footer class="max-w-7xl mx-auto px-4 pb-8">
+  <p class="text-center text-xs muted">© <span id="year"></span> Research Portal.</p>
+</footer>
 
 <script>
-/** ---- Team-Shared Loader: tries portal-data.json, falls back to default ---- */
-
-const DEFAULT_DATA = {
-  sections: [
-    { title: "Global Financial Markets", groups: [
-      { title: "Overview & Outlook", items: [
-        { label: "S&P 500 — SP500 (FRED)", url: "https://fred.stlouisfed.org/series/SP500", tags: ["equity","index","FRED"] },
-        { label: "CBOE VIX — VIXCLS (FRED)", url: "https://fred.stlouisfed.org/series/VIXCLS", tags: ["volatility","FRED"] },
-        { label: "Fed Balance Sheet — WALCL", url: "https://fred.stlouisfed.org/series/WALCL", tags: ["liquidity","FRED"] }
-      ]},
-      { title: "Interest Rates & Stocks", items: [
-        { label: "Fed Funds — FEDFUNDS", url: "https://fred.stlouisfed.org/series/FEDFUNDS", tags: ["rates","policy","FRED"] },
-        { label: "10Y — DGS10", url: "https://fred.stlouisfed.org/series/DGS10", tags: ["rates","UST10Y","FRED"] },
-        { label: "2Y — DGS2", url: "https://fred.stlouisfed.org/series/DGS2", tags: ["rates","UST2Y","FRED"] },
-        { label: "Curve 10s–2s — T10Y2Y", url: "https://fred.stlouisfed.org/series/T10Y2Y", tags: ["curve","spread","FRED"] },
-        { label: "Curve 10s–3m — T10Y3M", url: "https://fred.stlouisfed.org/series/T10Y3M", tags: ["curve","recession","FRED"] }
-      ]},
-      { title: "Commodities & Currencies", items: [
-        { label: "WTI — DCOILWTICO", url: "https://fred.stlouisfed.org/series/DCOILWTICO", tags: ["energy","oil","FRED"] },
-        { label: "NatGas — DHHNGSP", url: "https://fred.stlouisfed.org/series/DHHNGSP", tags: ["energy","gas","FRED"] },
-        { label: "Trade-Weighted USD — DTWEXBGS", url: "https://fred.stlouisfed.org/series/DTWEXBGS", tags: ["FX","USD","FRED"] }
-      ]},
-      { title: "Financial Markets Derbies", items: [
-        { label: "High Yield OAS — BAMLH0A0HYM2", url: "https://fred.stlouisfed.org/series/BAMLH0A0HYM2", tags: ["credit","spreads","FRED"] },
-        { label: "Moody’s Baa Yield — BAA", url: "https://fred.stlouisfed.org/series/BAA", tags: ["credit","yield","FRED"] },
-        { label: "Baa – 10Y Spread — BAA10Y", url: "https://fred.stlouisfed.org/series/BAA10Y", tags: ["credit","spread","FRED"] }
-      ]},
-      { title: "Financial Market Correlations", items: [
-        { label: "M2 — M2SL", url: "https://fred.stlouisfed.org/series/M2SL", tags: ["money","liquidity","FRED"] },
-        { label: "Real M2 — M2REAL", url: "https://fred.stlouisfed.org/series/M2REAL", tags: ["money","real","FRED"] }
-      ]}
-    ]},
-    { title: "US Economy", groups: [
-      { title: "GDP & Growth", items: [
-        { label: "Nominal GDP — GDP", url: "https://fred.stlouisfed.org/series/GDP", tags: ["growth","level","FRED"] },
-        { label: "Real GDP — GDPC1", url: "https://fred.stlouisfed.org/series/GDPC1", tags: ["real","growth","FRED"] },
-        { label: "GDP Deflator — GDPDEF", url: "https://fred.stlouisfed.org/series/GDPDEF", tags: ["inflation","FRED"] }
-      ]},
-      { title: "Inflation", items: [
-        { label: "CPI — CPIAUCSL", url: "https://fred.stlouisfed.org/series/CPIAUCSL", tags: ["CPI","inflation","FRED"] },
-        { label: "Core CPI — CPILFESL", url: "https://fred.stlouisfed.org/series/CPILFESL", tags: ["core","inflation","FRED"] },
-        { label: "PCE — PCEPI", url: "https://fred.stlouisfed.org/series/PCEPI", tags: ["PCE","inflation","FRED"] },
-        { label: "Core PCE — PCEPILFE", url: "https://fred.stlouisfed.org/series/PCEPILFE", tags: ["core","PCE","FRED"] },
-        { label: "PPI — PPIACO", url: "https://fred.stlouisfed.org/series/PPIACO", tags: ["PPI","inflation","FRED"] }
-      ]},
-      { title: "Labor Market", items: [
-        { label: "Unemployment — UNRATE", url: "https://fred.stlouisfed.org/series/UNRATE", tags: ["labor","unemployment","FRED"] },
-        { label: "Nonfarm Payrolls — PAYEMS", url: "https://fred.stlouisfed.org/series/PAYEMS", tags: ["jobs","employment","FRED"] },
-        { label: "Job Openings — JTSJOL", url: "https://fred.stlouisfed.org/series/JTSJOL", tags: ["JOLTS","openings","FRED"] },
-        { label: "Initial Claims — ICSA", url: "https://fred.stlouisfed.org/series/ICSA", tags: ["claims","weekly","FRED"] }
-      ]},
-      { title: "Consumption & Income", items: [
-        { label: "PCE — PCE", url: "https://fred.stlouisfed.org/series/PCE", tags: ["spending","consumption","FRED"] },
-        { label: "Retail Sales — RSAFS", url: "https://fred.stlouisfed.org/series/RSAFS", tags: ["retail","sales","FRED"] },
-        { label: "Real DPI — DSPIC96", url: "https://fred.stlouisfed.org/series/DSPIC96", tags: ["income","real","FRED"] }
-      ]},
-      { title: "Production & Investment", items: [
-        { label: "Industrial Production — INDPRO", url: "https://fred.stlouisfed.org/series/INDPRO", tags: ["output","industry","FRED"] },
-        { label: "Capacity Utilization — TCU", url: "https://fred.stlouisfed.org/series/TCU", tags: ["capacity","utilization","FRED"] },
-        { label: "Durable Goods Orders — DGORDER", url: "https://fred.stlouisfed.org/series/DGORDER", tags: ["capex","orders","FRED"] }
-      ]},
-      { title: "Housing", items: [
-        { label: "Housing Starts — HOUST", url: "https://fred.stlouisfed.org/series/HOUST", tags: ["housing","starts","FRED"] },
-        { label: "Building Permits — PERMIT", url: "https://fred.stlouisfed.org/series/PERMIT", tags: ["permits","housing","FRED"] },
-        { label: "Case-Shiller 20-City — SPCS20RSA", url: "https://fred.stlouisfed.org/series/SPCS20RSA", tags: ["home-prices","FRED"] },
-        { label: "30-Yr Mortgage — MORTGAGE30US", url: "https://fred.stlouisfed.org/series/MORTGAGE30US", tags: ["rates","mortgage","FRED"] }
-      ]},
-      { title: "Trade & Confidence", items: [
-        { label: "Trade Balance — BOPGSTB", url: "https://fred.stlouisfed.org/series/BOPGSTB", tags: ["trade","balance","FRED"] },
-        { label: "UMich Sentiment — UMCSENT", url: "https://fred.stlouisfed.org/series/UMCSENT", tags: ["sentiment","FRED"] }
-      ]},
-      { title: "Productivity", items: [
-        { label: "Nonfarm Productivity — OPHNFB", url: "https://fred.stlouisfed.org/series/OPHNFB", tags: ["productivity","FRED"] }
-      ]}
-    ]},
-    { title: "US Stock Market", groups: [
-      { title: "Historical Trends", items: [
-        { label: "S&P 500 — SP500", url: "https://fred.stlouisfed.org/series/SP500", tags: ["equities","history","FRED"] },
-        { label: "Wilshire 5000 Price — WILL5000PR", url: "https://fred.stlouisfed.org/series/WILL5000PR", tags: ["market","wilshire","FRED"] }
-      ]},
-      { title: "Valuation & Credit", items: [
-        { label: "Corporate Profits — CP", url: "https://fred.stlouisfed.org/series/CP", tags: ["profits","macro","FRED"] },
-        { label: "Baa Yield — BAA", url: "https://fred.stlouisfed.org/series/BAA", tags: ["credit","valuation","FRED"] },
-        { label: "Baa-10Y Spread — BAA10Y", url: "https://fred.stlouisfed.org/series/BAA10Y", tags: ["spread","risk","FRED"] }
-      ]}
-    ]},
-    { title: "Code & Repos", groups: [
-      { title: "Dashboards", items: [
-        { label: "Earnings Intelligence (HTML)", url: "https://your-gh-pages/earnings", tags: ["code","dashboard","HTML"] },
-        { label: "Housing Market (HTML)", url: "https://your-gh-pages/housing", tags: ["code","dashboard","HTML"] }
-      ]},
-      { title: "Utilities", items: [
-        { label: "CSV → JSON Transformer", url: "https://your-gh-pages/tools/csv2json", tags: ["tool","data"] }
-      ]}
-    ]}
-  ]
-};
-
+const DEFAULT_DATA = { sections: [] };
 let DATA = null;
-let SOURCE = "default"; // "shared" | "local" | "default"
+let SOURCE = "default";
 
-// Attempt to load portal-data.json from the same directory
+// Load JSON
 async function loadShared() {
   try {
     const res = await fetch("portal-data.json?ts=" + Date.now(), { cache: "no-store" });
@@ -183,25 +101,36 @@ async function loadShared() {
     else { DATA = DEFAULT_DATA; SOURCE = "default"; }
   }
 }
-loadShared().then(() => { refreshEditor(); render(); updateBadge(); });
+loadShared().then(() => { refreshEditor(); render(); });
 
-/* ---------- DOM helpers ---------- */
 const leftCol = document.getElementById("leftCol");
 const flatList = document.getElementById("flatList");
-function el(tag, attrs={}, ...children){ const n=document.createElement(tag); Object.entries(attrs).forEach(([k,v])=>{ if(k==="class") n.className=v; else if(k==="html") n.innerHTML=v; else n.setAttribute(k,v);}); children.forEach(c=>n.append(c)); return n; }
 
-/* ---------- Render ---------- */
+function el(tag, attrs={}, ...children){
+  const n=document.createElement(tag);
+  Object.entries(attrs).forEach(([k,v])=>{
+    if(k==="class") n.className=v;
+    else if(k==="html") n.innerHTML=v;
+    else n.setAttribute(k,v);
+  });
+  children.forEach(c=>n.append(c));
+  return n;
+}
+
 function render(){
-  leftCol.innerHTML=""; flatList.innerHTML="";
-  const query = document.getElementById("search").value.trim().toLowerCase();
-  DATA.sections.forEach((section, si)=>{
+  leftCol.innerHTML="";
+  flatList.innerHTML="";
+  const query=document.getElementById("search").value.trim().toLowerCase();
+  DATA.sections.forEach((section,si)=>{
     const card=el("div",{class:"card rounded-2xl border border-gray-200 dark:border-zinc-800 overflow-hidden"});
     const header=el("div",{class:"px-4 py-3 border-b border-gray-200 dark:border-zinc-800 flex items-center justify-between"});
-    header.append(el("h2",{class:"text-xl font-semibold ink"},section.title)); card.append(header);
-    section.groups.forEach((group, gi)=>{
-      const filtered = group.items.filter(it=>{
+    header.append(el("h2",{class:"text-xl font-semibold ink"},section.title));
+    card.append(header);
+
+    section.groups.forEach((group,gi)=>{
+      const filtered=group.items.filter(it=>{
         if(!query) return true;
-        const hay=(it.label+" "+(it.tags||[]).join(" ")+" "+group.title+" "+section.title).toLowerCase();
+        const hay=(it.label+" "+(it.tags||[]).join(" ")+group.title+section.title).toLowerCase();
         return hay.includes(query);
       });
       if(filtered.length===0) return;
@@ -209,55 +138,82 @@ function render(){
       det.open = JSON.parse(localStorage.getItem(`open-${si}-${gi}`) || "false");
       det.addEventListener("toggle",()=>localStorage.setItem(`open-${si}-${gi}`, det.open));
       const sum=el("summary",{class:"cursor-pointer select-none px-4 py-3 hover:bg-gray-50 dark:hover:bg-zinc-800 flex items-center justify-between"});
-      const left=el("div",{class:"flex items-center gap-2"}); left.append(el("i",{class:"lucide-chevron-right chev text-gray-500"})); left.append(el("span",{class:"font-medium"},group.title));
-      sum.append(left); sum.append(el("span",{class:"pill"},filtered.length+" item"+(filtered.length>1?"s":""))); det.append(sum);
+      const left=el("div",{class:"flex items-center gap-2"});
+      left.append(el("i",{class:"lucide-chevron-right chev text-gray-500"}));
+      left.append(el("span",{class:"font-medium"},group.title));
+      sum.append(left);
+      sum.append(el("span",{class:"pill"},filtered.length+" item"+(filtered.length>1?"s":"")));
+      det.append(sum);
+
       const list=el("ul",{class:"px-4 pb-3 space-y-2"});
       filtered.forEach(it=>{
-        const li=el("li",{}); const a=el("a",{href:it.url,target:"_blank",class:"block p-3 rounded-xl border border-gray-200 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800"});
+        const li=el("li",{});
+        const a=el("a",{href:it.url,target:"_blank",class:"block p-3 rounded-xl border border-gray-200 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800"});
         a.append(el("div",{class:"text-sm font-medium ink"},it.label));
-        if(it.tags?.length){ const row=el("div",{class:"mt-1 flex flex-wrap gap-1"}); it.tags.forEach(t=>row.append(el("span",{class:"pill"},t))); a.append(row); }
-        li.append(a); list.append(li);
-        const flat=a.cloneNode(true); flat.className="block p-3 rounded-xl border border-gray-200 dark:border-zinc-800"; flatList.append(el("li",{},flat));
+        if(it.tags?.length){
+          const row=el("div",{class:"mt-1 flex flex-wrap gap-1"});
+          it.tags.forEach(t=>row.append(el("span",{class:"pill"},t)));
+          a.append(row);
+        }
+        li.append(a);
+        list.append(li);
+        const flat=a.cloneNode(true);
+        flat.className="block p-3 rounded-xl border border-gray-200 dark:border-zinc-800";
+        flatList.append(el("li",{},flat));
       });
-      det.append(list); card.append(det);
+      det.append(list);
+      card.append(det);
     });
     leftCol.append(card);
   });
 }
 
-/* ---------- Controls ---------- */
-document.getElementById("search").addEventListener("input", render);
-document.getElementById("expandAll").addEventListener("click", ()=>{
-  const details = leftCol.querySelectorAll("details");
-  const willOpen = Array.from(details).some(d=>!d.open);
+document.getElementById("search").addEventListener("input",render);
+document.getElementById("expandAll").addEventListener("click",()=>{
+  const details=leftCol.querySelectorAll("details");
+  const willOpen=Array.from(details).some(d=>!d.open);
   details.forEach(d=>d.open=willOpen);
 });
-const root=document.documentElement; const storedTheme=localStorage.getItem("theme"); if(storedTheme==="dark") root.classList.add("dark");
-document.getElementById("themeToggle").addEventListener("click", ()=>{
-  root.classList.toggle("dark"); localStorage.setItem("theme", root.classList.contains("dark") ? "dark" : "light");
+
+const root=document.documentElement;
+const storedTheme=localStorage.getItem("theme");
+// Default to dark mode if no preference stored
+if(!storedTheme || storedTheme==="dark"){ root.classList.add("dark"); localStorage.setItem("theme","dark"); }
+
+document.getElementById("themeToggle").addEventListener("click",()=>{
+  root.classList.toggle("dark");
+  localStorage.setItem("theme", root.classList.contains("dark") ? "dark":"light");
 });
 
-/* ---------- Editor & Persistence ---------- */
 const editor=document.getElementById("dataEditor");
 function refreshEditor(){ if(!DATA) return; editor.value=JSON.stringify(DATA,null,2); }
-function updateBadge(){
-  // Optional: show source somewhere if you want
-}
-document.getElementById("saveData").addEventListener("click", ()=>{
-  try{ const parsed=JSON.parse(editor.value); DATA=parsed; localStorage.setItem("portal-data", JSON.stringify(DATA)); render(); alert("Saved locally. Use Download JSON to commit shared file."); }
-  catch(e){ alert("Invalid JSON. Fix and try again."); }
+document.getElementById("saveData").addEventListener("click",()=>{
+  try{
+    const parsed=JSON.parse(editor.value);
+    DATA=parsed;
+    localStorage.setItem("portal-data", JSON.stringify(DATA));
+    render();
+    alert("Saved locally. Use Download JSON to commit shared file.");
+  } catch(e){ alert("Invalid JSON. Fix and try again."); }
 });
-document.getElementById("reloadShared").addEventListener("click", async ()=>{
+document.getElementById("reloadShared").addEventListener("click",async()=>{
   localStorage.removeItem("portal-data");
-  await loadShared(); refreshEditor(); render();
+  await loadShared();
+  refreshEditor();
+  render();
 });
-document.getElementById("downloadJSON").addEventListener("click", ()=>{
+document.getElementById("downloadJSON").addEventListener("click",()=>{
   const blob=new Blob([JSON.stringify(JSON.parse(editor.value),null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download="portal-data.json"; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="portal-data.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 });
-
-/* ---------- Open All Visible ---------- */
-document.getElementById("openAllLinks").addEventListener("click", ()=>{
+document.getElementById("openAllLinks").addEventListener("click",()=>{
   const links=leftCol.querySelectorAll('a[href^="http"]');
   const query=document.getElementById("search").value.trim().toLowerCase();
   let count=0;
